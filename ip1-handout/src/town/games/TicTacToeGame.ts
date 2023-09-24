@@ -215,18 +215,21 @@ export default class TicTacToeGame extends Game<TicTacToeGameState, TicTacToeMov
    * @throws InvalidParametersError if the player is not in the game (PLAYER_NOT_IN_GAME_MESSAGE)
    */
   protected _leave(player: Player): void {
-    // if player is not in the game
+    // Check if the player is not in the game
     if (!this._players.some(p => p.id === player.id)) {
       throw new InvalidParametersError(PLAYER_NOT_IN_GAME_MESSAGE);
     }
-    // removing player
+
+    // Remove the player from the game
     this._players = this._players.filter(p => p.id !== player.id);
 
-    // When a player count is 1, change status to OVER and make the other player the winner
+    // Check the remaining player count
     if (this._players.length === 1) {
+      // There's only one player left, so end the game and declare the remaining player as the winner
       this.state.status = 'OVER';
       this.state.winner = this._players[0].id;
     } else if (this._players.length === 0) {
+      // No players left, set the game status to WAITING_TO_START
       this.state.status = 'WAITING_TO_START';
     }
   }
